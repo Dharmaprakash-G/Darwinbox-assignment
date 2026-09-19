@@ -66,6 +66,12 @@ class DataChatEngine:
         if not self.llm.is_configured():
             return None
 
+        # Bypass ambiguity check if the question has already been clarified by option selection
+        q_lower = question.lower()
+        if any(marker in q_lower for marker in ["(clarification:", "(option ", "(selected:", "instruction:"]):
+            print(f"[ENGINE AMBIGUITY BYPASS] Question contains clarification selection. Skipping ambiguity check.")
+            return None
+
         schema_text = self.loader.get_schema_prompt_text()
         system_prompt = (
             "You are a Data Quality & Intent Disambiguation Lead.\n"

@@ -195,7 +195,9 @@ for msg_idx, msg in enumerate(st.session_state.messages):
             st.write("**Select clarifying logic to execute:**")
             for opt_idx, opt in enumerate(msg["ambiguity_options"]):
                 if st.button(f"👉 {opt}", key=f"amb_opt_{msg_idx}_{opt_idx}"):
-                    st.session_state.pending_prompt = f"{msg.get('original_question', '')} ({opt})"
+                    orig_q = msg.get('original_question', '')
+                    clean_q = orig_q.split(' (Clarification:')[0].split(' (Option')[0].strip()
+                    st.session_state.pending_prompt = f"{clean_q} (Clarification: {opt})"
                     st.rerun()
 
 
