@@ -120,13 +120,30 @@ class DataChatEngine:
             prev_questions = user_questions[:-1] if len(user_questions) > 1 else []
             history_text = "\n".join([f"{idx+1}. {q}" for idx, q in enumerate(prev_questions)]) if prev_questions else "No previous questions asked in this session yet."
             
-            system_prompt = "You are an intelligent AI Data Assistant. Answer the user's conversational question or history request accurately."
-            user_prompt = f"Previous User Questions in this Chat Session:\n{history_text}\n\nCurrent User Question: {question}"
+            system_prompt = (
+                "You are DataChat, an AI-Powered Data Analytics & Business Intelligence Assistant.\n"
+                "If the user asks about your capabilities or what you can do, explain your specialized tabular data analytics features:\n"
+                "1. Multi-File Dataset Analysis: Ingesting and querying across multiple CSV & Excel datasets.\n"
+                "2. Text-to-SQL Relational Queries: Calculating exact totals, averages, counts, cross-table JOINs, and conditional filters in DuckDB.\n"
+                "3. Auto-Visualization: Automatically building interactive Plotly charts (Bar, Line, Pie, Scatter).\n"
+                "4. Ambiguity Resolution: Asking clarifying questions when business metrics are vague.\n"
+                "5. Data Profiling: Identifying missing values, data types, and quality alerts.\n"
+                "Do NOT list generic LLM capabilities like language translation, poem writing, or general trivia."
+            )
+            user_prompt = f"Previous User Questions in Chat Session:\n{history_text}\n\nCurrent User Question: {question}"
             
             try:
                 nl_ans = self.llm.generate_completion(system_prompt, user_prompt, temperature=0.2)
             except Exception:
-                nl_ans = f"Here are the questions you have asked in this chat session:\n{history_text}"
+                nl_ans = (
+                    "I am **DataChat**, your AI Data Analytics Assistant!\n\n"
+                    "Here is what I can help you with:\n"
+                    "• **Multi-File Dataset Ingestion**: Ingest and query multiple CSV/Excel files.\n"
+                    "• **Exact Text-to-SQL Analytics**: Compute exact averages, totals, counts, and cross-table `JOIN`s in DuckDB.\n"
+                    "• **Interactive Visualizations**: Auto-render Plotly bar, line, pie, and scatter charts.\n"
+                    "• **Ambiguity Resolution**: Clarify vague business questions before querying.\n"
+                    "• **Data Profiling**: Detect missing values and dataset quality alerts."
+                )
 
             return {
                 "status": "success",
