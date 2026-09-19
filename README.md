@@ -7,12 +7,12 @@
 
 ## 🌟 Executive Summary & Acceptance Criteria Mapping
 
-| Darwinbox Acceptance Criteria | How DataChat Fulfills It | Architectural Module |
-| :--- | :--- | :--- |
-| **1. Multi-file upload** | Drag-and-drop multiple `.csv` and `.xlsx` files simultaneously, registered instantly into an in-memory DuckDB instance. Includes a 1-click **Load HR Demo** button. | [`loader.py`](file:///c:/Users/MAHEN/Desktop/assignment_fde/datachat/core/loader.py) |
-| **2. Cross-file analysis** | Executes complex relational operations (`JOIN`, `GROUP BY`, aggregations, window functions, conditional filters) across multiple uploaded files. | [`engine.py`](file:///c:/Users/MAHEN/Desktop/assignment_fde/datachat/core/engine.py) |
-| **3. Visual insights** | Automatically recommends and renders interactive **Plotly** charts (Bar, Line, Pie, Scatter) based on result cardinality and data types. | [`charts.py`](file:///c:/Users/MAHEN/Desktop/assignment_fde/datachat/core/charts.py) |
-| **4. Delta solutioning** *(Value-Add)* | • **Ambiguity Detection**: Asks clarifying questions instead of guessing.<br>• **Suggested Questions**: Auto-generates clickable prompt pills upon upload.<br>• **Multi-turn Context**: Enables follow-up queries (*"now break that down by month"*).<br>• **SQL Guardrail**: Enforces read-only SELECT safety.<br>• **Eval Benchmark**: Automated test suite runner. | [`profiler.py`](file:///c:/Users/MAHEN/Desktop/assignment_fde/datachat/core/profiler.py), [`sql_guard.py`](file:///c:/Users/MAHEN/Desktop/assignment_fde/datachat/core/sql_guard.py), [`eval/`](file:///c:/Users/MAHEN/Desktop/assignment_fde/datachat/eval/) |
+| Darwinbox Acceptance Criteria          | How DataChat Fulfills It                                                                                                                                                                                                                                                                                                                                              | Architectural Module                                                                                                                                                                                                                                          |
+| :------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **1. Multi-file upload**               | Drag-and-drop multiple `.csv` and `.xlsx` files simultaneously, registered instantly into an in-memory DuckDB instance. Includes a 1-click **Load HR Demo** button.                                                                                                                                                                                                   | [`loader.py`](file:///c:/Users/MAHEN/Desktop/assignment_fde/datachat/core/loader.py)                                                                                                                                                                          |
+| **2. Cross-file analysis**             | Executes complex relational operations (`JOIN`, `GROUP BY`, aggregations, window functions, conditional filters) across multiple uploaded files.                                                                                                                                                                                                                      | [`engine.py`](file:///c:/Users/MAHEN/Desktop/assignment_fde/datachat/core/engine.py)                                                                                                                                                                          |
+| **3. Visual insights**                 | Automatically recommends and renders interactive **Plotly** charts (Bar, Line, Pie, Scatter) based on result cardinality and data types.                                                                                                                                                                                                                              | [`charts.py`](file:///c:/Users/MAHEN/Desktop/assignment_fde/datachat/core/charts.py)                                                                                                                                                                          |
+| **4. Delta solutioning** _(Value-Add)_ | • **Ambiguity Detection**: Asks clarifying questions instead of guessing.<br>• **Suggested Questions**: Auto-generates clickable prompt pills upon upload.<br>• **Multi-turn Context**: Enables follow-up queries (_"now break that down by month"_).<br>• **SQL Guardrail**: Enforces read-only SELECT safety.<br>• **Eval Benchmark**: Automated test suite runner. | [`profiler.py`](file:///c:/Users/MAHEN/Desktop/assignment_fde/datachat/core/profiler.py), [`sql_guard.py`](file:///c:/Users/MAHEN/Desktop/assignment_fde/datachat/core/sql_guard.py), [`eval/`](file:///c:/Users/MAHEN/Desktop/assignment_fde/datachat/eval/) |
 
 ---
 
@@ -37,6 +37,7 @@ datachat/
 ```
 
 ### Why Text-to-SQL (DuckDB) over Vector RAG?
+
 1. **Exact Mathematical Aggregations**: Vector RAG embeds text chunks and retrieves top similarity snippets, which hallucinates or fails when calculating exact totals (`SUM`, `AVG`, `COUNT`) across thousands of rows. Text-to-SQL executes exact relational algebra across 100% of dataset records.
 2. **Cross-Table JOINs**: Vector similarity cannot join `employees.csv` to `departments.csv` on `dept_id`. DuckDB natively handles complex relational JOINs in under 10ms.
 3. **Enterprise Auditability**: Enterprise HR analytics require auditable results. The generated SQL query is fully transparent and inspectable.
@@ -46,11 +47,12 @@ datachat/
 ## 🚀 Quick Start & Run Instructions
 
 ### 1. Prerequisites & Virtual Environment Setup
+
 Ensure you have Python 3.8+ installed (Python 3.12 recommended):
 
 ```powershell
 # Navigate to project directory
-cd c:\Users\MAHEN\Desktop\assignment_fde\datachat
+cd c:\Users\assignment_fde\datachat
 
 # Create virtual environment
 python -m venv venv
@@ -67,15 +69,18 @@ pip install -r requirements.txt
 ```
 
 ### 2. Configure Environment Variables
+
 Copy `.env.example` to `.env` and add your **OpenRouter API Key**:
 
 ```env
 OPENROUTER_API_KEY=your_openrouter_api_key_here
 DEFAULT_MODEL=meta-llama/llama-3.3-70b-instruct
 ```
-*(Note: You can also enter the OpenRouter API Key directly in the Streamlit UI sidebar).*
+
+_(Note: You can also enter the OpenRouter API Key directly in the Streamlit UI sidebar)._
 
 ### 3. Run Benchmark Evaluation Suite
+
 To execute the golden questions test suite against the sample HR datasets:
 
 ```powershell
@@ -83,6 +88,7 @@ python -m eval.run_eval
 ```
 
 ### 4. Launch the Web Application
+
 Launch the Streamlit interactive dashboard:
 
 ```powershell
@@ -96,16 +102,20 @@ The web app will open automatically in your browser at `http://localhost:8501`. 
 ## 📄 1-Page Approach & Write-Up (FDE Problem Solving & Next Steps)
 
 ### Approach & Scoping
+
 To build a production-grade data assistant within time constraints, I scoped the app around three core principles:
+
 1. **Determinism First**: Leveraging DuckDB as an in-memory analytical engine eliminates database infrastructure complexity while guaranteeing mathematical precision.
 2. **Frictionless Onboarding**: Auto-generating schema-aware starter questions eliminates "blank canvas syndrome" for users upon dataset upload.
 3. **Guardrails & Enterprise Safety**: Implementing AST/Regex SQL security validation ensures LLM hallucinations can never execute destructive state mutations (`DROP`, `DELETE`).
 
 ### Key Trade-Offs & Decisions
+
 - **OpenRouter API vs. Local Ollama**: Used OpenRouter to access state-of-the-art open-source LLMs (`Llama 3.3 70B`) via a unified OpenAI-compatible SDK without requiring GPU hardware.
 - **Plotly vs. Static Matplotlib**: Selected Plotly for interactive zoom, hover tooltips, and seamless Streamlit integration.
 
 ### Future Roadmap (What I'd Build Next for Enterprise Deployment)
+
 1. **Dynamic Schema Relationship Inference**: Use fuzzy column matching and LLM reasoning to auto-detect foreign key join paths when dataset schemas lack explicit naming matches.
 2. **Role-Based Data Access (RBAC) & Cell Masking**: In HR systems like Darwinbox, sensitive columns (e.g. `salary`, `performance_rating`) require row-level and column-level security filters before executing SQL.
 3. **Cached Aggregation Views**: Materialize frequent SQL query patterns into DuckDB views for instant sub-millisecond dashboard rendering.
