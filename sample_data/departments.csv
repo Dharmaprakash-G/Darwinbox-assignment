@@ -1,0 +1,6 @@
+department_id,department_name,manager_id,location,budget_2025,headcount
+D1,Engineering,E102,Bangalore,1200000,4
+D2,Human Resources,E104,Hyderabad,450000,2
+D3,Product & Design,E112,Gurgaon,850000,3
+D4,Sales & Business Development,E108,Mumbai,950000,2
+D5,Finance,E110,Mumbai,350000,1

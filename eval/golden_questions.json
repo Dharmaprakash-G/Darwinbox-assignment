@@ -1,0 +1,62 @@
+[
+  {
+    "id": "Q1",
+    "category": "Single Table Aggregation",
+    "question": "What is the average salary of all employees?",
+    "expected_sql": "SELECT AVG(salary) AS avg_salary FROM employees;"
+  },
+  {
+    "id": "Q2",
+    "category": "Cross-Table JOIN",
+    "question": "List the total headcount and average salary for each department name.",
+    "expected_sql": "SELECT d.department_name, COUNT(e.emp_id) AS headcount, AVG(e.salary) AS avg_salary FROM employees e JOIN departments d ON e.department_id = d.department_id GROUP BY d.department_name;"
+  },
+  {
+    "id": "Q3",
+    "category": "Filtering & Sorting",
+    "question": "Who are the top 3 highest paid employees in the company?",
+    "expected_sql": "SELECT first_name, last_name, salary FROM employees ORDER BY salary DESC LIMIT 3;"
+  },
+  {
+    "id": "Q4",
+    "category": "Cross-Table JOIN & Filtering",
+    "question": "Show all employees working in the Bangalore location with their job titles.",
+    "expected_sql": "SELECT first_name, last_name, job_title, location FROM employees WHERE location ILIKE 'Bangalore';"
+  },
+  {
+    "id": "Q5",
+    "category": "Multi-Table Aggregation",
+    "question": "What is the total bonus pool for 2025 across all employees?",
+    "expected_sql": "SELECT SUM(bonus_2025) AS total_bonus FROM compensation;"
+  },
+  {
+    "id": "Q6",
+    "category": "Cross-Table Compensation Analysis",
+    "question": "Find the average performance rating and total bonus paid per department name.",
+    "expected_sql": "SELECT d.department_name, AVG(e.performance_rating) AS avg_rating, SUM(c.bonus_2025) AS total_bonus FROM employees e JOIN departments d ON e.department_id = d.department_id JOIN compensation c ON e.emp_id = c.emp_id GROUP BY d.department_name;"
+  },
+  {
+    "id": "Q7",
+    "category": "Department Budget Analysis",
+    "question": "Which department has the highest budget for 2025?",
+    "expected_sql": "SELECT department_name, budget_2025 FROM departments ORDER BY budget_2025 DESC LIMIT 1;"
+  },
+  {
+    "id": "Q8",
+    "category": "High Performer Filter",
+    "question": "List all employees with a performance rating above 4.5.",
+    "expected_sql": "SELECT first_name, last_name, performance_rating, job_title FROM employees WHERE performance_rating > 4.5;"
+  },
+  {
+    "id": "Q9",
+    "category": "Location Breakdown",
+    "question": "Count the number of employees in each office location.",
+    "expected_sql": "SELECT location, COUNT(*) AS employee_count FROM employees GROUP BY location ORDER BY employee_count DESC;"
+  },
+  {
+    "id": "Q10",
+    "category": "Stock Option Allocation",
+    "question": "What is the total stock option units granted to employees with rating 4.8 or higher?",
+    "expected_sql": "SELECT SUM(c.stock_options_units) AS total_stock_units FROM compensation c JOIN employees e ON c.emp_id = e.emp_id WHERE e.performance_rating >= 4.8;"
+  }
+]

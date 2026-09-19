@@ -1,0 +1,13 @@
+emp_id,first_name,last_name,email,department_id,job_title,hire_date,salary,performance_rating,status,location
+E101,Aarav,Sharma,aarav.sharma@company.com,D1,Senior Software Engineer,2021-03-15,145000,4.5,Active,Bangalore
+E102,Priya,Patel,priya.patel@company.com,D1,Staff Backend Engineer,2019-07-22,180000,4.8,Active,Bangalore
+E103,Rohan,Gupta,rohan.gupta@company.com,D2,HR Business Partner,2022-01-10,95000,3.9,Active,Hyderabad
+E104,Ananya,Rao,ananya.rao@company.com,D2,Talent Acquisition Lead,2020-11-05,110000,4.2,Active,Hyderabad
+E105,Vikram,Singh,vikram.singh@company.com,D3,Product Manager,2021-08-19,160000,4.6,Active,Gurgaon
+E106,Sneha,Reddy,sneha.reddy@company.com,D3,UX Designer,2022-05-14,120000,4.1,Active,Gurgaon
+E107,Karan,Verma,karan.verma@company.com,D4,Account Executive,2023-02-01,85000,3.7,Active,Mumbai
+E108,Divya,Nair,divya.nair@company.com,D4,Sales Director,2018-09-12,210000,4.9,Active,Mumbai
+E109,Aditya,Joshi,aditya.joshi@company.com,D1,Frontend Developer,2023-06-20,105000,4.0,Active,Bangalore
+E110,Meera,Kulkarni,meera.kulkarni@company.com,D5,Financial Analyst,2022-10-03,98000,4.3,Active,Mumbai
+E111,Rahul,Deshmukh,rahul.deshmukh@company.com,D1,DevOps Engineer,2021-12-01,135000,4.4,Active,Bangalore
+E112,Neha,Kapoor,neha.kapoor@company.com,D3,Senior Product Manager,2019-04-15,190000,4.7,Active,Gurgaon
