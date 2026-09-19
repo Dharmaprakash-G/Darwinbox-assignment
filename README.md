@@ -1,18 +1,18 @@
 # DataChat: AI-Powered Data Q&A Web App
 
 > **Darwinbox Forward Deployed Engineer (FDE) Take-Home Assignment Solution**  
-> A full-featured analytical web application enabling plain-English Q&A across multiple CSV/Excel files using in-memory DuckDB Text-to-SQL, OpenRouter open-source LLMs, automated data quality profiling, ambiguity resolution, auto-visualization, and an evaluation benchmark.
+> A full-featured analytical web application enabling plain-English Q&A across multiple CSV/Excel files using in-memory DuckDB Text-to-SQL, OpenRouter open-source LLMs (`Llama 3.3 70B`), automated data quality profiling, ambiguity resolution, auto-visualization, and an evaluation benchmark.
 
 ---
 
 ## 🌟 Executive Summary & Acceptance Criteria Mapping
 
-| Darwinbox Acceptance Criteria          | How DataChat Fulfills It                                                                                                                                                                                                                                                                                                                                              | Architectural Module                                                                                                                                                                                                                                          |
-| :------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **1. Multi-file upload**               | Drag-and-drop multiple `.csv` and `.xlsx` files simultaneously, registered instantly into an in-memory DuckDB instance. Includes a 1-click **Load HR Demo** button.                                                                                                                                                                                                   | [`loader.py`](file:///c:/Users/MAHEN/Desktop/assignment_fde/datachat/core/loader.py)                                                                                                                                                                          |
-| **2. Cross-file analysis**             | Executes complex relational operations (`JOIN`, `GROUP BY`, aggregations, window functions, conditional filters) across multiple uploaded files.                                                                                                                                                                                                                      | [`engine.py`](file:///c:/Users/MAHEN/Desktop/assignment_fde/datachat/core/engine.py)                                                                                                                                                                          |
-| **3. Visual insights**                 | Automatically recommends and renders interactive **Plotly** charts (Bar, Line, Pie, Scatter) based on result cardinality and data types.                                                                                                                                                                                                                              | [`charts.py`](file:///c:/Users/MAHEN/Desktop/assignment_fde/datachat/core/charts.py)                                                                                                                                                                          |
-| **4. Delta solutioning** _(Value-Add)_ | • **Ambiguity Detection**: Asks clarifying questions instead of guessing.<br>• **Suggested Questions**: Auto-generates clickable prompt pills upon upload.<br>• **Multi-turn Context**: Enables follow-up queries (_"now break that down by month"_).<br>• **SQL Guardrail**: Enforces read-only SELECT safety.<br>• **Eval Benchmark**: Automated test suite runner. | [`profiler.py`](file:///c:/Users/MAHEN/Desktop/assignment_fde/datachat/core/profiler.py), [`sql_guard.py`](file:///c:/Users/MAHEN/Desktop/assignment_fde/datachat/core/sql_guard.py), [`eval/`](file:///c:/Users/MAHEN/Desktop/assignment_fde/datachat/eval/) |
+| Darwinbox Acceptance Criteria | How DataChat Fulfills It | Architectural Module |
+| :--- | :--- | :--- |
+| **1. Multi-file upload** | Drag-and-drop multiple `.csv` and `.xlsx` files simultaneously, registered instantly into an in-memory DuckDB instance. Includes a 1-click **Load HR Demo** button. | [`core/loader.py`](core/loader.py) |
+| **2. Cross-file analysis** | Executes complex relational operations (`JOIN`, `GROUP BY`, aggregations, window functions, conditional filters) across multiple uploaded files. | [`core/engine.py`](core/engine.py) |
+| **3. Visual insights** | Automatically recommends and renders interactive **Plotly** charts (Bar, Line, Pie, Scatter) based on result cardinality and data types. | [`core/charts.py`](core/charts.py) |
+| **4. Delta solutioning** *(Value-Add)* | • **Ambiguity Detection**: Asks clarifying questions instead of guessing.<br>• **Suggested Questions**: Auto-generates clickable prompt pills upon upload.<br>• **Multi-turn Context**: Enables follow-up queries (*"now break that down by month"*).<br>• **SQL Guardrail**: Enforces read-only SELECT safety.<br>• **Eval Benchmark**: Automated test suite runner. | [`core/profiler.py`](core/profiler.py), [`core/sql_guard.py`](core/sql_guard.py), [`eval/`](eval/) |
 
 ---
 
@@ -52,7 +52,7 @@ Ensure you have Python 3.8+ installed (Python 3.12 recommended):
 
 ```powershell
 # Navigate to project directory
-cd c:\Users\assignment_fde\datachat
+cd datachat
 
 # Create virtual environment
 python -m venv venv
@@ -76,8 +76,6 @@ Copy `.env.example` to `.env` and add your **OpenRouter API Key**:
 OPENROUTER_API_KEY=your_openrouter_api_key_here
 DEFAULT_MODEL=meta-llama/llama-3.3-70b-instruct
 ```
-
-_(Note: You can also enter the OpenRouter API Key directly in the Streamlit UI sidebar)._
 
 ### 3. Run Benchmark Evaluation Suite
 
