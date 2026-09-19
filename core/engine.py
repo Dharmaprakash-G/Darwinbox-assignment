@@ -114,6 +114,17 @@ class DataChatEngine:
         print(f"[ENGINE INPUT] Question: '{question}'")
         print("="*60)
 
+        # 0. Security Guardrail: Reject Destructive Commands in User Input
+        user_input_upper = question.upper()
+        prohibited_cmds = ["DROP TABLE", "DROP DATABASE", "DELETE FROM", "TRUNCATE TABLE", "UPDATE ", "INSERT INTO", "ALTER TABLE"]
+        for cmd in prohibited_cmds:
+            if cmd in user_input_upper:
+                print(f"[ENGINE SECURITY VIOLATION] Destructive command '{cmd}' detected in user input.")
+                return {
+                    "status": "error",
+                    "message": f"Security Violation: Destructive command '{cmd.strip()}' is strictly prohibited. DataChat is restricted to read-only analytical queries."
+                }
+
         chat_history = chat_history or []
 
         # 1. Classify Intent (DATA_QUERY vs CONVERSATIONAL)
